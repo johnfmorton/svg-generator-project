@@ -21,9 +21,11 @@
 
 body {
   height: 100vh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: hsl(0, 0%, 96%);
+  padding-bottom: 3rem;
 }
 
 .canvas {
@@ -34,8 +36,9 @@ body {
 
 .button-container {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 button {
