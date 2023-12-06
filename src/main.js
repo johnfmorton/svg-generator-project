@@ -17,13 +17,17 @@ import {
   pointsInPath
 } from '@georgedoescode/generative-utils';
 
-// As HTML Element
-const svgGenerated = SVG(".canvas");
+// The SVG element already present in the HTML
+const svgGenerated = SVG("#svg-canvas");
 
 // Used for the filename of the SVG generated that will be timestamped
 // Don't include .svg extension in the name. Also, the filename will
 // include a timestamp that starts with an underscore.
-const projectName = "stipes_example";
+const projectTitle = "Stripes Example Project";
+
+// set the #project-title in the HTML to the projectTitle variable
+const projectNameEl = document.getElementById("project-title");
+projectNameEl.innerHTML = projectTitle;
 
 // regenerate button
 const regenerateBtn = document.getElementById("regenerateBtn");
@@ -32,7 +36,7 @@ const regenerateBtn = document.getElementById("regenerateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
 // listen for clicks on the regenerate button
-regenerateBtn?.addEventListener("click", () => {
+regenerateBtn.addEventListener("click", () => {
   // re-paint the stripes
   generate();
 });
@@ -73,7 +77,7 @@ function downloadSvg() {
   // Creating a temporary anchor element to trigger download
   const downloadLink = document.createElement("a");
   downloadLink.href = svgUrl;
-  downloadLink.download = projectName + "_" + timestamp + ".svg"; // Name of the file to be downloaded
+  downloadLink.download = _toValidFilename(projectTitle) + "_" + timestamp + ".svg"; // Name of the file to be downloaded
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
@@ -100,3 +104,33 @@ function generate() {
 }
 
 generate();
+
+
+function _toValidFilename(str) {
+    // Replace invalid filename characters with an underscore
+  let safeStr = str.replace(/[\\/:*?"<>|]/g, '_');
+
+   // Replace spaces with underscores
+    safeStr = safeStr.replace(/\s+/g, '_');
+
+    // Trim leading and trailing spaces
+    safeStr = safeStr.trim();
+
+    // Convert to lowercase for case-insensitivity (optional)
+    safeStr = safeStr.toLowerCase();
+
+    return safeStr;
+}
+
+
+function updateTitle() {
+  const projectNameEl = document.getElementById("project-title");
+  // append the title element witht the projectTitle variable
+  const titleElement = document.getElementsByTagName("title")[0];
+
+  const currentTitle = titleElement.innerHTML;
+  const newTitle = `${projectTitle} | ${currentTitle}`;
+  titleElement.innerHTML = newTitle;
+}
+
+updateTitle();

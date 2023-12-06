@@ -28,7 +28,18 @@ body {
   padding-bottom: 3rem;
 }
 
-.canvas {
+#project-title {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+
+#svg-canvas {
   width: 97.05882353vmin;
   height: 75vmin;
   background: hsl(0, 0%, 100%);
