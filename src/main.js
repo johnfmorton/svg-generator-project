@@ -15,7 +15,7 @@ const svgGenerated = SVG("#svg-canvas");
 // Used for the filename of the SVG generated that will be timestamped
 // Don't include .svg extension in the name. Also, the filename will
 // include a timestamp that starts with an underscore.
-const projectTitle = "Infinite Voronoi Triangles";
+const projectTitle = "Finite Voronoi Triangles";
 
 // set the #project-title in the HTML to the projectTitle variable
 const projectNameEl = document.getElementById("project-title");

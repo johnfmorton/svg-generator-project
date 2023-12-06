@@ -51,16 +51,25 @@ export function svgGenerator(svgObj) {
   // draw a voronoi diagram
   const tessellation = createVoronoiTessellation({ width, height, points, iterations: 6 });
 
-  const debug = false;
+  let debug = false;
+  // check if the #debug input exists
+  const debugEl = document.getElementById("debug");
+  if (debugEl) {
+    // update the number of points
+    debug = debugEl.checked;
+  }
+
+
+
   tessellation.cells.forEach((cell) => {
     if (debug) {
-      svgObj.polygon(cell.points).fill("none").stroke("#000");
+      svgObj.polygon(cell.points).fill("none").stroke("#999999");
 
       svgObj
-        .circle(cell.innerCircleRadius * 2)
+        .circle(cell.innerCircleRadius * 1)
         .cx(cell.centroid.x)
         .cy(cell.centroid.y)
-        .stroke("#0f0")
+        .stroke("#f00")
         .fill("none").scale(0.5);
       console.log(cell);
 
@@ -99,6 +108,12 @@ export function svgGenerator(svgObj) {
   });
 }
 
+
+
+
+
+
+
 // create a container for the setting inputs to live inside
 const settingsContainer = document.createElement("div");
 settingsContainer.classList.add("settings-container");
@@ -135,17 +150,18 @@ numPointsContainer.style.flexDirection = "column";
 // add the container to the settings container
 settingsContainer.appendChild(numPointsContainer);
 
-// create a label for the number of points
-const numPointsLabel = document.createElement("label");
-numPointsLabel.for = "num-points";
-numPointsLabel.innerHTML = "Number of triangles, 1-2000";
-// add the label to the page
-numPointsContainer.appendChild(numPointsLabel);
+// // create a label for the number of points
+// const numPointsLabel = document.createElement("label");
+// numPointsLabel.for = "num-points";
+// numPointsLabel.innerHTML = "Number of triangles, 1-2000";
+// // add the label to the page
+// numPointsContainer.appendChild(numPointsLabel);
 
 // create a text field to the page to set the number of points
-const numPointsEl = document.createElement("input");
+const numPointsEl = document.createElement("sl-range");
 numPointsEl.id = "num-points";
-numPointsEl.type = "range";
+numPointsEl.label = "Number of Triangles";
+numPointsEl.helpText = "Adjust the number of triangles in the image."
 numPointsEl.value = 500;
 numPointsEl.min = 1;
 numPointsEl.max = 2000;
@@ -162,29 +178,39 @@ numPointsEl.addEventListener("change", () => {
 // create a container for the rotation input
 const rotationContainer = document.createElement("div");
 
-// text black so it's visible on the white background
-rotationContainer.style.color = "#000";
-
-// display flex flexcolumn so the inputs stack on top of each other
-rotationContainer.style.display = "flex";
-rotationContainer.style.flexDirection = "column";
-
-// create a label for the rotation
-const rotationLabel = document.createElement("label");
-rotationLabel.for = "rotation";
-rotationLabel.innerHTML = "Rotation, -180-180 degrees";
 // create a range input for the rotation
-const rotationEl = document.createElement("input");
+const rotationEl = document.createElement("sl-range");
 rotationEl.id = "rotation";
-rotationEl.type = "range";
+rotationEl.label = "Rotation offset";
+rotationEl.helpText = "Adjust the rotation of the triangles."
 rotationEl.value = 0;
 rotationEl.min = -180;
 rotationEl.max = 180;
 
-
-// add the label to the page
-rotationContainer.appendChild(rotationLabel);
 // add the text field to the page
 rotationContainer.appendChild(rotationEl);
 // add the container to the settings container
 settingsContainer.appendChild(rotationContainer);
+
+
+// create a debug checkbox
+const debugEl = document.createElement("sl-checkbox");
+debugEl.id = "debug";
+debugEl.innerHTML = "Debug";
+debugEl.checked = false;
+// add the checkbox to the page
+settingsContainer.appendChild(debugEl);
+
+// create a sl-range for the volume
+//<sl-range label="Volume" help-text="Controls the volume of the current song." min="0" max="100"></sl-range>
+// const volumeContainer = document.createElement("div");
+// const volumeInput = document.createElement("sl-range");
+// volumeInput.label = "Volume";
+// volumeInput = "Controls the volume of the current song.";
+// volumeInput.min = 0;
+// volumeInput.max = 100;
+// volumeInput.value = 50;
+// // add the volume input to the volume container
+// volumeContainer.appendChild(volumeInput);
+// // add the volume container to the settings container
+// settingsContainer.appendChild(volumeContainer);
