@@ -96,13 +96,6 @@ export function svgGenerator(svgObj) {
 
       let updatedAngle = angle + Number(angleUpdate);
 
-      console.log({
-        angle,
-        angleUpdate,
-        updatedAngle
-      })
-
-
       svgObj.path('M 0 0 L ' + cell.innerCircleRadius + ' 0 L ' + cell.innerCircleRadius/2 + ' ' + cell.innerCircleRadius + ' z').fill("#fff").stroke("#000").x(cell.centroid.x - (cell.innerCircleRadius/2)).y(cell.centroid.y- (cell.innerCircleRadius/2.5)).rotate(updatedAngle);
     }
   });
@@ -115,22 +108,26 @@ export function svgGenerator(svgObj) {
 
 
 // create a container for the setting inputs to live inside
-const settingsContainer = document.createElement("div");
-settingsContainer.classList.add("settings-container");
+const settingsContainer = document.getElementById("settings");
 
-// set the settings container to be fixed to the top right of the page
-settingsContainer.style.position = "fixed";
-settingsContainer.style.top = "0";
-settingsContainer.style.right = "0";
+
+// create a container for the setting fields
+const settingsInnerContainer = document.createElement("div");
+
+settingsInnerContainer.classList.add("settings-container");
+
+
 // text black so it's visible on the white background
-settingsContainer.style.color = "#000";
-// add some padding to the container
-settingsContainer.style.padding = "1rem";
+settingsInnerContainer.style.color = "#000";
+
 // display flex flexcolumn so the inputs stack on top of each other
-settingsContainer.style.display = "flex";
-settingsContainer.style.flexDirection = "column";
+settingsInnerContainer.style.display = "flex";
+settingsInnerContainer.style.flexDirection = "column";
 // set gap to 1rem so the inputs are spaced out
-settingsContainer.style.gap = "1rem";
+settingsInnerContainer.style.gap = "1.5rem";
+
+// add the container to the settings container
+settingsContainer.appendChild(settingsInnerContainer);
 
 
 // add the container to the page
@@ -148,7 +145,7 @@ numPointsContainer.style.flexDirection = "column";
 
 
 // add the container to the settings container
-settingsContainer.appendChild(numPointsContainer);
+settingsInnerContainer.appendChild(numPointsContainer);
 
 // // create a label for the number of points
 // const numPointsLabel = document.createElement("label");
@@ -190,7 +187,7 @@ rotationEl.max = 180;
 // add the text field to the page
 rotationContainer.appendChild(rotationEl);
 // add the container to the settings container
-settingsContainer.appendChild(rotationContainer);
+settingsInnerContainer.appendChild(rotationContainer);
 
 
 // create a debug checkbox
@@ -199,7 +196,7 @@ debugEl.id = "debug";
 debugEl.innerHTML = "Debug";
 debugEl.checked = false;
 // add the checkbox to the page
-settingsContainer.appendChild(debugEl);
+settingsInnerContainer.appendChild(debugEl);
 
 // create a sl-range for the volume
 //<sl-range label="Volume" help-text="Controls the volume of the current song." min="0" max="100"></sl-range>

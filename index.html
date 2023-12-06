@@ -10,13 +10,36 @@
 
   </head>
   <body>
+<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
+  <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+
     <div id="project-title">SVG Workspace</div>
+
     <!-- SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape -->
     <svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
+
     <div class='button-container'>
       <button id="regenerateBtn">Regenerate</button>
       <button id="downloadBtn">Download SVG</button>
+<sl-button id="settings-open">Settings</sl-button>
+
     </div>
     <script type="module" src="/src/main.js"></script>
+
+
+
+
+
+
+    <script>
+      const drawer = document.querySelector('.drawer-overview');
+      const openButton = document.getElementById('settings-open');
+      const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+
+      openButton.addEventListener('click', () => drawer.show());
+      closeButton.addEventListener('click', () => drawer.hide());
+    </script>
   </body>
 </html>
