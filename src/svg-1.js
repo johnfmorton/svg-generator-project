@@ -16,15 +16,22 @@ export function svgGenerator(svgObj) {
   // find the center of the canvas
   const centerX = width / 2;
   const centerY = height / 2;
+  const radius = height / 2;
+
 
   // draw a circle at the center of the canvas
-
-  // set the radius of the circle
-  const radius = height / 2;
   // svgObj.circle(radius).center(centerX, centerY).fill("#fff").stroke("#f00");
 
   // loop through the number of points we want to draw
-  const numPoints = 500;
+  let numPoints = 500;
+
+  // check if the #num-points input exists
+  const numPointsEl = document.getElementById("num-points");
+  if (numPointsEl) {
+    // update the number of points
+    numPoints = numPointsEl.value;
+  }
+
   let points = [];
   // loop through the number of points we want to draw
   for (let i = 0; i < numPoints; i++) {
@@ -43,12 +50,9 @@ export function svgGenerator(svgObj) {
 
   // draw a voronoi diagram
   const tessellation = createVoronoiTessellation({ width, height, points, iterations: 6 });
-  // draw the voronoi diagram
-  // svgObj.path(voronoi.render()).fill("green").stroke("#f0f");
 
-
-const debug = false;
-tessellation.cells.forEach((cell) => {
+  const debug = false;
+  tessellation.cells.forEach((cell) => {
     if (debug) {
       svgObj.polygon(cell.points).fill("none").stroke("#000");
 
@@ -61,20 +65,8 @@ tessellation.cells.forEach((cell) => {
       console.log(cell);
 
     } else {
-      // svgObj
-      //   .circle(cell.innerCircleRadius * 2)
-      //   .cx(cell.centroid.x)
-      //   .cy(cell.centroid.y)
-      //   .fill(random(["#7257FA", "#FFD53D", "#1D1934", "#F25C54"]))
-      //   // Reduce each circle's size a little, to give the pattern some room
-      //   .scale(0.75);
 
-
-      // svgObj.path('M ' + cell.centroid.x + ' ' + cell.centroid.x / 3 + ' L ' + cell.centroid.y + ' ' + cell.centroid.x + ' L ' + cell.centroid.x / 2 + ' ' + cell.centroid.y / 4 + ' z').fill("#fff").stroke("#000").scale(0.5);
-      // cell.innerCircleRadius
-
-      // based on the x and y coordinates and using the page width and height, figure out the rotation of the shape to make it face the center of the page
-
+      // figure out the angle of the triangle based on the center of the page and the center of the cell
       const pageCenterX = width / 2;
       const pageCenterY = height / 2;
 
@@ -83,9 +75,116 @@ tessellation.cells.forEach((cell) => {
 
       const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
 
+      // get the #rotation input, if it exists
+      const rotationEl = document.getElementById("rotation");
 
 
-      svgObj.path('M 0 0 L ' + cell.innerCircleRadius + ' 0 L ' + cell.innerCircleRadius/2 + ' ' + cell.innerCircleRadius + ' z').fill("#fff").stroke("#000").x(cell.centroid.x - (cell.innerCircleRadius/2)).y(cell.centroid.y- (cell.innerCircleRadius/2.5)).rotate(angle+45);
+      let angleUpdate = 0;
+      if (rotationEl) {
+        // update the rotation
+        angleUpdate = rotationEl.value;
+      }
+
+      let updatedAngle = angle + Number(angleUpdate);
+
+      console.log({
+        angle,
+        angleUpdate,
+        updatedAngle
+      })
+
+
+      svgObj.path('M 0 0 L ' + cell.innerCircleRadius + ' 0 L ' + cell.innerCircleRadius/2 + ' ' + cell.innerCircleRadius + ' z').fill("#fff").stroke("#000").x(cell.centroid.x - (cell.innerCircleRadius/2)).y(cell.centroid.y- (cell.innerCircleRadius/2.5)).rotate(updatedAngle);
     }
   });
 }
+
+// create a container for the setting inputs to live inside
+const settingsContainer = document.createElement("div");
+settingsContainer.classList.add("settings-container");
+
+// set the settings container to be fixed to the top right of the page
+settingsContainer.style.position = "fixed";
+settingsContainer.style.top = "0";
+settingsContainer.style.right = "0";
+// text black so it's visible on the white background
+settingsContainer.style.color = "#000";
+// add some padding to the container
+settingsContainer.style.padding = "1rem";
+// display flex flexcolumn so the inputs stack on top of each other
+settingsContainer.style.display = "flex";
+settingsContainer.style.flexDirection = "column";
+// set gap to 1rem so the inputs are spaced out
+settingsContainer.style.gap = "1rem";
+
+
+// add the container to the page
+document.body.appendChild(settingsContainer);
+
+// make a container for the number of points input
+const numPointsContainer = document.createElement("div");
+
+// text black so it's visible on the white background
+numPointsContainer.style.color = "#000";
+
+// display flex flexcolumn so the inputs stack on top of each other
+numPointsContainer.style.display = "flex";
+numPointsContainer.style.flexDirection = "column";
+
+
+// add the container to the settings container
+settingsContainer.appendChild(numPointsContainer);
+
+// create a label for the number of points
+const numPointsLabel = document.createElement("label");
+numPointsLabel.for = "num-points";
+numPointsLabel.innerHTML = "Number of triangles, 1-2000";
+// add the label to the page
+numPointsContainer.appendChild(numPointsLabel);
+
+// create a text field to the page to set the number of points
+const numPointsEl = document.createElement("input");
+numPointsEl.id = "num-points";
+numPointsEl.type = "range";
+numPointsEl.value = 500;
+numPointsEl.min = 1;
+numPointsEl.max = 2000;
+// add the text field to the page
+numPointsContainer.appendChild(numPointsEl);
+
+numPointsEl.addEventListener("change", () => {
+  // update the number of points
+  numPoints = numPointsEl.value;
+  // regenerate the SVG
+  svgGenerator(svgGenerated);
+});
+
+// create a container for the rotation input
+const rotationContainer = document.createElement("div");
+
+// text black so it's visible on the white background
+rotationContainer.style.color = "#000";
+
+// display flex flexcolumn so the inputs stack on top of each other
+rotationContainer.style.display = "flex";
+rotationContainer.style.flexDirection = "column";
+
+// create a label for the rotation
+const rotationLabel = document.createElement("label");
+rotationLabel.for = "rotation";
+rotationLabel.innerHTML = "Rotation, -180-180 degrees";
+// create a range input for the rotation
+const rotationEl = document.createElement("input");
+rotationEl.id = "rotation";
+rotationEl.type = "range";
+rotationEl.value = 0;
+rotationEl.min = -180;
+rotationEl.max = 180;
+
+
+// add the label to the page
+rotationContainer.appendChild(rotationLabel);
+// add the text field to the page
+rotationContainer.appendChild(rotationEl);
+// add the container to the settings container
+settingsContainer.appendChild(rotationContainer);
