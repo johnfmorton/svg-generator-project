@@ -39,6 +39,8 @@ body {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
 }
 
 button {
@@ -49,4 +51,5 @@ button {
   cursor: pointer;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  border-radius: 2px;
 }
