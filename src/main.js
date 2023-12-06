@@ -7,15 +7,7 @@
 
 import './style.css'
 import { SVG } from '@svgdotjs/svg.js';
-import {
-  createNoiseGrid,
-  createVoronoiTessellation,
-  random,
-  randomBias,
-  map,
-  spline,
-  pointsInPath
-} from '@georgedoescode/generative-utils';
+import { svgGenerator } from './svg-1';
 
 // The SVG element already present in the HTML
 const svgGenerated = SVG("#svg-canvas");
@@ -36,30 +28,17 @@ const regenerateBtn = document.getElementById("regenerateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 
 // listen for clicks on the regenerate button
-regenerateBtn.addEventListener("click", () => {
-  // re-paint the stripes
-  generate();
+regenerateBtn?.addEventListener("click", () => {
+  // redraw the SVG
+  svgGenerator(svgGenerated);
 });
+
+// draw the SVG for the initial load
+svgGenerator(svgGenerated);
 
 downloadBtn?.addEventListener("click", () => {
   downloadSvg();
 });
-
-// 200 x 154
-const { width, height } = svgGenerated.viewbox();
-
-const numStripes = 10;
-
-function _getTimestamp() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = ("0" + (now.getMonth() + 1)).slice(-2);
-  const day = ("0" + now.getDate()).slice(-2);
-  const hours = ("0" + now.getHours()).slice(-2);
-  const minutes = ("0" + now.getMinutes()).slice(-2);
-  const seconds = ("0" + now.getSeconds()).slice(-2);
-  return year + month + day + "_" + hours + minutes + seconds;
-}
 
 function downloadSvg() {
   // Get the SVG data from the svg function in svg.js
@@ -83,45 +62,6 @@ function downloadSvg() {
   document.body.removeChild(downloadLink);
 }
 
-// stripe width === viewBox width / the amount of stripes we would like to paint
-const stripeWidth = width / numStripes;
-
-// Do your thing inside the generate function! 🚀
-function generate() {
-  svgGenerated.clear();
-  // store some simple browser default colors in an array
-  const colors = ["red", "orange", "green", "blue", "pink", "yellow"];
-
-  for (let i = 0; i < width; i += stripeWidth) {
-    // pick a number between 0 and 5 (the length of the colors array)
-    const diceRoll = Math.floor(Math.random() * colors.length);
-    // pick out the color from the array using diceRoll as the index
-    const color = colors[diceRoll];
-
-    // draw a colored stripe on the canvas based on the dice roll
-    svgGenerated.rect(stripeWidth, height).x(i).y(0).fill(color).stroke("#fff");
-  }
-}
-
-generate();
-
-
-function _toValidFilename(str) {
-    // Replace invalid filename characters with an underscore
-  let safeStr = str.replace(/[\\/:*?"<>|]/g, '_');
-
-   // Replace spaces with underscores
-    safeStr = safeStr.replace(/\s+/g, '_');
-
-    // Trim leading and trailing spaces
-    safeStr = safeStr.trim();
-
-    // Convert to lowercase for case-insensitivity (optional)
-    safeStr = safeStr.toLowerCase();
-
-    return safeStr;
-}
-
 
 function updateTitle() {
   const projectNameEl = document.getElementById("project-title");
@@ -134,3 +74,29 @@ function updateTitle() {
 }
 
 updateTitle();
+
+// helper function to convert a string to a valid filename
+
+function _toValidFilename(str) {
+    // Replace invalid filename characters with an underscore
+  let safeStr = str.replace(/[\\/:*?"<>|]/g, '_');
+   // Replace spaces with underscores
+    safeStr = safeStr.replace(/\s+/g, '_');
+    // Trim leading and trailing spaces
+    safeStr = safeStr.trim();
+    // Convert to lowercase for case-insensitivity (optional)
+    safeStr = safeStr.toLowerCase();
+    return safeStr;
+}
+
+// helper function to get a timestamp
+function _getTimestamp() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = ("0" + (now.getMonth() + 1)).slice(-2);
+  const day = ("0" + now.getDate()).slice(-2);
+  const hours = ("0" + now.getHours()).slice(-2);
+  const minutes = ("0" + now.getMinutes()).slice(-2);
+  const seconds = ("0" + now.getSeconds()).slice(-2);
+  return year + month + day + "_" + hours + minutes + seconds;
+}
