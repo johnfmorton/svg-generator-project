@@ -7,7 +7,7 @@
 
 import './style.css'
 import { SVG } from '@svgdotjs/svg.js';
-import { svgGenerator } from './svg-1';
+import { svgGenerator } from './svg-cats';
 
 // The SVG element already present in the HTML
 const svgGenerated = SVG("#svg-canvas");
@@ -15,7 +15,7 @@ const svgGenerated = SVG("#svg-canvas");
 // Used for the filename of the SVG generated that will be timestamped
 // Don't include .svg extension in the name. Also, the filename will
 // include a timestamp that starts with an underscore.
-const projectTitle = "Finite Voronoi Triangles";
+const projectTitle = "Finite Voronoi Cats";
 
 // set the #project-title in the HTML to the projectTitle variable
 const projectNameEl = document.getElementById("project-title");
