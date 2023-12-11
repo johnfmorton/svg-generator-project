@@ -33,8 +33,11 @@ regenerateBtn?.addEventListener("click", () => {
   svgGenerator(svgGenerated);
 });
 
-// draw the SVG for the initial load
-svgGenerator(svgGenerated);
+// draw the SVG for the initial load on page load
+window.onload = () => {
+
+  svgGenerator(svgGenerated);
+}
 
 downloadBtn?.addEventListener("click", () => {
   downloadSvg();

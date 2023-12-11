@@ -28,7 +28,7 @@ export function svgGenerator(svgObj) {
   const closeShapeEl = document.getElementById("close-shape");
   if (closeShapeEl) {
     // update the number of points
-    closeShape = closeShapeEl.checked;
+    closeShape = closeShapeEl.checked ? true : false;
   }
 
 
@@ -41,15 +41,6 @@ export function svgGenerator(svgObj) {
     console.log('quatTreeLevels',quatTreeLevels);
 
   }
-
-  // find the center of the canvas
-  // const centerX = width / 2;
-  // const centerY = height / 2;
-  // const radius = height / 2;
-
-
-  // draw a circle at the center of the canvas
-  // svgObj.circle(radius).center(centerX, centerY).fill("#fff").stroke("#f00");
 
   // loop through the number of points we want to draw
   let numPoints = 500;
@@ -124,9 +115,6 @@ const points = [...Array(numPoints)].map(() => {
   }
 
 
-
-
-
   // spine through the gridCenterPoints
   // points, tension, closeShape
 const splinePoints = spline(gridCenterPoints, cornerTension, closeShape);
@@ -198,12 +186,6 @@ numPointsEl.max = 350;
 // add the text field to the page
 numPointsContainer.appendChild(numPointsEl);
 
-numPointsEl.addEventListener("change", () => {
-  // update the number of points
-  numPoints = numPointsEl.value;
-  // regenerate the SVG
-  svgGenerator(svgGenerated);
-});
 
 // create a container for the rotation input
 const quatTreeLevelsContainer = document.createElement("div");
@@ -221,9 +203,6 @@ quatTreeLevelsEl.max = 20;
 quatTreeLevelsContainer.appendChild(quatTreeLevelsEl);
 // add the container to the settings container
 settingsInnerContainer.appendChild(quatTreeLevelsContainer);
-
-
-
 
 // create a container for the rotation input
 const cornerTensionContainer = document.createElement("div");
@@ -261,3 +240,59 @@ debugEl.checked = false;
 // add the checkbox to the page
 settingsInnerContainer.appendChild(debugEl);
 
+
+// Get the current URL query parameters
+let params = new URLSearchParams(window.location.search);
+
+// When the input value changes, update the URL query parameters
+numPointsEl.addEventListener('input', function() {
+  params.set('numPoints', this.value);
+  window.history.replaceState({}, '', '?' + params.toString());
+});
+
+// When the input value changes, update the URL query parameters
+quatTreeLevelsEl.addEventListener('input', function() {
+  params.set('quatTreeLevels', this.value);
+  window.history.replaceState({}, '', '?' + params.toString());
+});
+
+// When the corner tension value changes, update the URL query parameters
+cornerTensionEl.addEventListener('input', function() {
+  params.set('cornerTension', this.value);
+  window.history.replaceState({}, '', '?' + params.toString());
+});
+
+// Check for close shape toggle
+closeShapeToggle.addEventListener('sl-change', function() {
+  params.set('closeShape', this.checked);
+  window.history.replaceState({}, '', '?' + params.toString());
+});
+
+// Check for debug toggle
+debugEl.addEventListener('sl-change', function() {
+  params.set('debug', this.checked);
+  window.history.replaceState({}, '', '?' + params.toString());
+});
+
+// When the page loads, check if there are query parameters for the input
+window.addEventListener('load', function() {
+  if (params.has('numPoints')) {
+    numPointsEl.value = params.get('numPoints');
+  }
+
+  if (params.has('quatTreeLevels')) {
+    quatTreeLevelsEl.value = params.get('quatTreeLevels');
+  }
+
+  if (params.has('cornerTension')) {
+    cornerTensionEl.value = params.get('cornerTension');
+  }
+
+  if (params.has('closeShape')) {
+    closeShapeToggle.checked = params.get('closeShape') == "true" ? true : false;
+  }
+
+  if (params.has('debug')) {
+    debugEl.checked = params.get('debug') == "true" ? true : false;
+  }
+});
