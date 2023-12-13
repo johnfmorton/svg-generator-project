@@ -1,52 +1,74 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SVG Workspace</title>
-    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace.js"></script> -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/light.css" /> -->
 
-  </head>
-  <body>
-<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings" >
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    #svg-canvas {
+      box-shadow:
+    }
+
+    /* Hide the content until the page has loaded */
+    body #content {
+      display: none;
+    }
+  </style>
+  <title>SVG Workspace</title>
+</head>
+
+<body>
+  <div id="content">
+
+<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
   <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
 
-    <div id="project-title">SVG Workspace</div>
+<div id="project-title">SVG Workspace</div>
 
-    <!-- SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape -->
-    <svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
+<!-- SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape -->
+<svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
 
-    <div class='button-container'>
-      <button id="regenerateBtn">Regenerate</button>
-      <button id="downloadBtn">Download SVG</button>
-      <sl-button id="settings-open" >Settings</sl-button>
+<div class='button-container'>
 
-    </div>
-    <script type="module" src="/src/main.js"></script>
+  <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
+
+  <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
+
+  <sl-button id="settings-open" variant="neutral">Settings</sl-button>
 
 
-    <script>
-      // const drawer = document.querySelector('.drawer-overview');
-      const drawer = document.getElementById('settings');
-      const openButton = document.getElementById('settings-open');
-      const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+</div>
 
-      openButton.addEventListener('click', () => drawer.show());
-      closeButton.addEventListener('click', () => drawer.hide());
+  </div>
+  <script type="module" src="/src/main.js"></script>
 
-      // if there are ANY query params, close the drawer
-      // wait for document to load
-      window
-        .addEventListener('load', () => {
-          if (!window.location.search) {
-            drawer.show();
-          }
-        });
 
-    </script>
-  </body>
+  <script>
+    // const drawer = document.querySelector('.drawer-overview');
+    const drawer = document.getElementById('settings');
+    const openButton = document.getElementById('settings-open');
+    const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+
+    openButton.addEventListener('click', () => drawer.show());
+    closeButton.addEventListener('click', () => drawer.hide());
+
+    // if there are ANY query params, close the drawer
+    // wait for document and javascript to load before showing the
+
+
+
+    window
+      .addEventListener('DOMContentLoaded', () => {
+        if (!window.location.search) {
+          drawer.show();
+        }
+        document.getElementById('content').style.display = 'block';
+      });
+
+  </script>
+</body>
+
 </html>
