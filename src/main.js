@@ -7,7 +7,7 @@
 
 import './style.css'
 import { SVG } from '@svgdotjs/svg.js';
-import { svgGenerator } from './svg-1b';
+import { svgGenerator } from './svg-grid-1b';
 
 import '@shoelace-style/shoelace/dist/themes/light.css';
 
