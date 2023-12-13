@@ -36,6 +36,11 @@ export class SettingsManager {
         this.settings[name] = settingElement;
 
         // Define a getter for direct property access
+        // be sure this is not a dubplicate property
+        if (this.hasOwnProperty(name)) {
+            throw new Error(`The name ${name} is already in use.`);
+        }
+
         Object.defineProperty(this, name, {
             get: () => this.getSettingValue(name)
         });

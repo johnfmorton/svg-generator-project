@@ -10,41 +10,20 @@ import {
 
 import { mySettings } from './settingsManager.js';
 
+const settings = _settingsInit();
+
 // export the svgGenerator function
 export function svgGenerator(svgObj) {
   const { width, height } = svgObj.viewbox();
   svgObj.clear();
-
-  const settings = _settingsInit();
 
   // find the center of the canvas
   const centerX = width / 2;
   const centerY = height / 2;
   const radius = height / 2;
 
-
-  // draw a circle at the center of the canvas
-  // svgObj.circle(radius).center(centerX, centerY).fill("#fff").stroke("#f00");
-
   // loop through the number of points we want to draw
-  let numPoints = 500;
-
-  // check if the #num-points input exists
-  // const numPointsEl = document.getElementById("num-points");
-  // if (numPointsEl) {
-  //   // update the number of points
-  //   numPoints = numPointsEl.value;
-  // }
-
-  if (settings) {
-
-    // console.log("settings[\"num-points\"]",settings["num-points"]);
-    console.log("settings.numPoints",settings.numPoints);
-    // console.log("settings.rotation",settings.rotation);
-    // debugger;
-    // update the number of points
-    // numPoints = settingsManager.numPoints;
-  }
+  let numPoints = settings.numPoints ?? 500;
 
   let points = [];
   // loop through the number of points we want to draw
@@ -73,8 +52,6 @@ export function svgGenerator(svgObj) {
     debug = debugEl.checked;
   }
 
-
-
   tessellation.cells.forEach((cell) => {
     if (debug) {
       svgObj.polygon(cell.points).fill("none").stroke("#999999");
@@ -85,8 +62,6 @@ export function svgGenerator(svgObj) {
         .cy(cell.centroid.y)
         .stroke("#f00")
         .fill("none").scale(0.5);
-      console.log(cell);
-
     } else {
 
       // figure out the angle of the triangle based on the center of the page and the center of the cell
@@ -98,15 +73,7 @@ export function svgGenerator(svgObj) {
 
       const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
 
-      // get the #rotation input, if it exists
-      const rotationEl = document.getElementById("rotation");
-
-
-      let angleUpdate = 0;
-      if (rotationEl) {
-        // update the rotation
-        angleUpdate = rotationEl.value;
-      }
+      let angleUpdate = settings.rotation ?? 0;
 
       let updatedAngle = angle + Number(angleUpdate);
 
@@ -119,7 +86,6 @@ export function svgGenerator(svgObj) {
 // create a private function for the settings manager to be called on init
 
 function _settingsInit() {
-
 
 // create a settings manager instance
 
@@ -137,13 +103,12 @@ let myDebugOptions = {
   },
 };
 
-
 // add settings to the settings manager
 
 mySettings.add(
   {
     sltype: 'sl-input',
-    name: 'num-points',
+    name: 'numPoints',
     options: {
       label: 'Number of points',
       type: 'number',
@@ -170,8 +135,6 @@ mySettings.add(
       }
     },
     myDebugOptions
-
-
 );
 
 return mySettings;
