@@ -13,7 +13,13 @@ export class SettingsManager {
     }
 
     addSetting(settingConfig) {
+        // throw error is kebab case is used
+        if (settingConfig.name.includes('-')) {
+            throw new Error('The name `'+ settingConfig.name +'` must not contain a hypen. Use camelCase instead to create a valid variable name.');
+        }
+
         const { sltype, name, options } = settingConfig;
+
         let settingElement = document.createElement(sltype);
 
         for (let [key, value] of Object.entries(options)) {
@@ -33,6 +39,8 @@ export class SettingsManager {
         Object.defineProperty(this, name, {
             get: () => this.getSettingValue(name)
         });
+
+        console.log('getter created', name);
     }
 
     add(...settingConfigs) {
@@ -41,7 +49,7 @@ export class SettingsManager {
 
     getSettingValue(settingName) {
 
-        console.log('getter',this.settings[settingName]);
+        console.log('getter retreiving value:', settingName);
 
         if (!this.settings[settingName]) {
             throw new Error(`Setting ${settingName} not found.`);
@@ -52,8 +60,3 @@ export class SettingsManager {
 }
 
 export const mySettings = new SettingsManager();
-
-
-function _toKebabCase(str) {
-    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-}
