@@ -15,6 +15,8 @@ export function svgGenerator(svgObj) {
   const { width, height } = svgObj.viewbox();
   svgObj.clear();
 
+  const settings = _settingsInit();
+
   // find the center of the canvas
   const centerX = width / 2;
   const centerY = height / 2;
@@ -28,10 +30,20 @@ export function svgGenerator(svgObj) {
   let numPoints = 500;
 
   // check if the #num-points input exists
-  const numPointsEl = document.getElementById("num-points");
-  if (numPointsEl) {
+  // const numPointsEl = document.getElementById("num-points");
+  // if (numPointsEl) {
+  //   // update the number of points
+  //   numPoints = numPointsEl.value;
+  // }
+
+  if (settings) {
+
+    // console.log("settings[\"num-points\"]",settings["num-points"]);
+    console.log("settings.numPoints",settings.numPoints);
+    // console.log("settings.rotation",settings.rotation);
+    // debugger;
     // update the number of points
-    numPoints = numPointsEl.value;
+    // numPoints = settingsManager.numPoints;
   }
 
   let points = [];
@@ -104,6 +116,11 @@ export function svgGenerator(svgObj) {
 }
 
 
+// create a private function for the settings manager to be called on init
+
+function _settingsInit() {
+
+
 // create a settings manager instance
 
 // initialize the settings manager
@@ -146,7 +163,7 @@ mySettings.add(
         type: 'number',
         min: -360,
         max: 360,
-        value: 0,
+        value: 40,
         step: 1,
         size: 'small',
         helpText: 'The rotation of the triangles'
@@ -156,3 +173,7 @@ mySettings.add(
 
 
 );
+
+return mySettings;
+
+}
