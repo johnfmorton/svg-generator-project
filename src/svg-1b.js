@@ -104,4 +104,56 @@ export function svgGenerator(svgObj) {
 }
 
 
-//
+// create a settings manager instance
+
+// initialize the settings manager
+mySettings.init({ settingsElement: '#settings' });
+
+// add settings to the settings manager
+
+mySettings.add(
+  {
+    sltype: 'sl-input',
+    name: 'num-points',
+    options: {
+      label: 'Number of points',
+      type: 'number',
+      min: 1,
+      max: 1000,
+      value: 500,
+      step: 1,
+      size: 'small',
+      helpText: 'The number of points to draw'
+    }
+  }
+
+);
+/*,
+  {
+    sltype: 'sl-input',
+    name: 'rotation',
+    options: {
+      label: 'Rotation',
+      type: 'number',
+      min: -360,
+      max: 360,
+      value: 0,
+      step: 1,
+      size: 'small',
+      helpText: 'The rotation of the triangles'
+    }
+  },
+
+  {
+    sltype: 'sl-input',
+    name: 'debug',
+    options: {
+      label: 'Debug',
+      type: 'checkbox',
+      value: false,
+      size: 'small',
+      helpText: 'Show debug lines'
+    }
+  }
+
+  */
