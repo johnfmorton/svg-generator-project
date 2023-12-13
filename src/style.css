@@ -65,3 +65,10 @@ button {
   -moz-osx-font-smoothing: grayscale;
   border-radius: 2px;
 }
+
+
+#settings::part(body) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

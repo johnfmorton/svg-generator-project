@@ -109,6 +109,18 @@ export function svgGenerator(svgObj) {
 // initialize the settings manager
 mySettings.init({ settingsElement: '#settings' });
 
+let myDebugOptions = {
+  sltype: 'sl-switch',
+  name: 'debug',
+  options: {
+    label: 'Debug',
+    type: 'checkbox',
+    size: 'medium',
+    helpText: 'Show debug info'
+  },
+};
+
+
 // add settings to the settings manager
 
 mySettings.add(
@@ -122,38 +134,25 @@ mySettings.add(
       max: 1000,
       value: 500,
       step: 1,
-      size: 'small',
+      size: 'medium',
       helpText: 'The number of points to draw'
-    }
-  }
+    },
+  },
+    {
+      sltype: 'sl-range',
+      name: 'rotation',
+      options: {
+        label: 'Rotation',
+        type: 'number',
+        min: -360,
+        max: 360,
+        value: 0,
+        step: 1,
+        size: 'small',
+        helpText: 'The rotation of the triangles'
+      }
+    },
+    myDebugOptions
+
 
 );
-/*,
-  {
-    sltype: 'sl-input',
-    name: 'rotation',
-    options: {
-      label: 'Rotation',
-      type: 'number',
-      min: -360,
-      max: 360,
-      value: 0,
-      step: 1,
-      size: 'small',
-      helpText: 'The rotation of the triangles'
-    }
-  },
-
-  {
-    sltype: 'sl-input',
-    name: 'debug',
-    options: {
-      label: 'Debug',
-      type: 'checkbox',
-      value: false,
-      size: 'small',
-      helpText: 'Show debug lines'
-    }
-  }
-
-  */
