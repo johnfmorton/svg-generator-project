@@ -27,8 +27,24 @@ export class SettingsManager {
         let settingElement = document.createElement(sltype)
 
         for (let [key, value] of Object.entries(options)) {
-            if (value !== null) {
-                // Only set non-null properties
+          if (value !== null) {
+            // Only set non-null properties
+
+            // before we use the passed in value, check if there is a query param with the same name
+            // if so, use that value instead
+            const url = new URL(window.location.href)
+            const urlValue = url.searchParams.get(name)
+            if (urlValue !== null) {
+              // if the type of shoelace component is a switch, we need set the checked property instead of value
+              if (sltype === 'sl-switch' || sltype === 'sl-checkbox') {
+                if (key === 'checked') {
+                  value = urlValue === 'true'
+                }
+              } else if (key === 'value') {
+                value = urlValue
+              }
+
+            }
                 settingElement[key] = value
             }
             // some shoelace components use innerText instead of label
@@ -50,7 +66,14 @@ export class SettingsManager {
             get: () => this.getSettingValue(name),
         })
 
-        // console.log('getter created', name);
+      // add a listener to the setting to record the value in as a query param to be restored on page reload
+
+        settingElement.addEventListener('sl-change', () => {
+            const value = this.getSettingValue(name)
+            const url = new URL(window.location.href)
+            url.searchParams.set(name, value)
+            window.history.replaceState({}, '', url)
+        })
     }
 
     add(...settingConfigs) {

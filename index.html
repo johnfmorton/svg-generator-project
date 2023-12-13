@@ -10,7 +10,7 @@
 
   </head>
   <body>
-<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings" open>
+<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings" >
   <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
@@ -30,12 +30,22 @@
 
 
     <script>
-      const drawer = document.querySelector('.drawer-overview');
+      // const drawer = document.querySelector('.drawer-overview');
+      const drawer = document.getElementById('settings');
       const openButton = document.getElementById('settings-open');
       const closeButton = drawer.querySelector('sl-button[variant="primary"]');
 
       openButton.addEventListener('click', () => drawer.show());
       closeButton.addEventListener('click', () => drawer.hide());
+
+      // if there are ANY query params, close the drawer
+      // wait for document to load
+      window
+        .addEventListener('load', () => {
+          if (!window.location.search) {
+            drawer.show();
+          }
+        });
 
     </script>
   </body>
