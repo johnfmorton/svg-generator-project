@@ -7,7 +7,9 @@
 
 import './style.css'
 import { SVG } from '@svgdotjs/svg.js';
-import { svgGenerator } from './svg-grid-1';
+import { svgGenerator } from './svg-1b';
+
+import '@shoelace-style/shoelace/dist/themes/light.css';
 
 // The SVG element already present in the HTML
 const svgGenerated = SVG("#svg-canvas");
@@ -36,7 +38,7 @@ regenerateBtn?.addEventListener("click", () => {
 // draw the SVG for the initial load on page load
 window.onload = () => {
 
-  svgGenerator(svgGenerated);
+  // svgGenerator(svgGenerated);
 }
 
 downloadBtn?.addEventListener("click", () => {
