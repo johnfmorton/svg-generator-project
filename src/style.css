@@ -24,14 +24,15 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   background: hsl(0, 0%, 96%);
   color: black;
+  background-color: #fafafa;
   /* linear gradient background */
-      background: linear-gradient(140deg, #f5f5f5 0%, rgb(223, 223, 223) 50%);
+      /* background: linear-gradient(140deg, #f5f5f5 0%, rgb(223, 223, 223) 50%); */
 }
 
 #project-title {
