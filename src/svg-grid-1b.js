@@ -109,7 +109,7 @@ const points = [...Array(numPoints)].map(() => {
         .x(area.x)
         .y(area.y)
         .fill('none')
-        .stroke('#111');
+        .stroke('#a1a1a1');
     }
 
   });
@@ -118,7 +118,7 @@ const points = [...Array(numPoints)].map(() => {
   // draw a circle on each point
   if (debug) {
     gridCenterPoints.forEach((point) => {
-      svgObj.circle(4).cx(point.x).cy(point.y).fill("#fff").stroke("#f00");
+      svgObj.circle(8).cx(point.x).cy(point.y).fill("#f00").stroke("#f00");
     });
 
   }
