@@ -6,46 +6,36 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-.parent {
-  min-height: 100vh;
-  min-width: 100vw;
-display: grid;
-grid-template-columns: 70px 1fr 70px;
-grid-template-rows: 70px 6fr 70px;
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+    .layout-container {
+    display: grid;
+    grid-template-rows: 100px 1fr 100px;
+    height: 100vh; /* Full height of the viewport */
+    width: 100%; /* Full width */
 }
 
-.div1 {
-  grid-area: 1 / 2 / 2 / 3;
-  color: red;
-  background-color: lightblue;
-}
-.div2 { grid-area: 2 / 2 / 3 / 3;
-  background-color: lightgreen;
-  height: 100%;
-  max-height: calc(100vh - 140px);
-  /* display: flex;
-  justify-content: center; */
-}
-.div3 { grid-area: 3 / 2 / 4 / 3;
-
-  background-color: lightpink;
+.header, .footer {
+    /* Styling for header and footer */
 }
 
-
-.svg-container {
+.content {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* width: 100%; */
-
-    border: 1px solid #ccc; /* Optional, just for visualization */
-  max-height: calc(100vh - 140px);
-    aspect-ratio: 11/8.5;
-    margin: auto;
+    overflow: hidden; /* Prevents overflow */
+  padding: 20px 20px;
 }
 
+
+
+.content svg {
+    max-width: 100%; /* Limit to container's width */
+    max-height: 100%; /* Limit to container's height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    min-width: 0; /* Allows SVG to scale down below its intrinsic width */
+    min-height: 0; /* Allows SVG to scale down below its intrinsic height */
+    aspect-ratio: 11 / 8.5; /* 8.5 x 11 */
+}
 
   </style>
   <title>SVG Workspace</title>
@@ -58,10 +48,25 @@ grid-row-gap: 0px;
   </sl-drawer>
 
 
-<div class="parent">
-  <div class="div1"><div id="project-title">SVG Workspace</div></div>
-  <div class="div2 "><div class="svg-container"> <svg id="svg-canvas" viewBox="0 0 1056 816"></svg></div> </div>
-  <div class="div3"> buttons </div>
+<div class="layout-container">
+  <div class="header">
+    <!-- Content for top row -->
+    <div id="project-title">SVG Workspace</div>
+  </div>
+  <div class="content">
+    <!-- <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 yourWidth yourHeight" xmlns="http://www.w3.org/2000/svg"> -->
+      <!-- SVG content here -->
+      <svg id="svg-canvas" viewBox="0 0 1100 850" preserveAspectRatio="xMidYMid meet"></svg>
+
+  </div>
+  <div class="footer">
+    <!-- Content for bottom row -->
+    <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
+
+    <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
+
+    <sl-button id="settings-open" variant="neutral">Settings</sl-button></div>
+  </div>
 </div>
 
   <!-- <div id="content">
