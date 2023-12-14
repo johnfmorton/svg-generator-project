@@ -17,6 +17,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+  font-weight: normal;
 }
 
 body {
@@ -27,6 +29,8 @@ body {
   background: hsl(0, 0%, 96%);
   padding-bottom: 3rem;
   color: black;
+  /* linear gradient background */
+      background: linear-gradient(140deg, #f5f5f5 0%, rgb(223, 223, 223) 50%);
 }
 
 #project-title {
@@ -44,6 +48,7 @@ body {
   width: 97.05882353vmin;
   height: 75vmin;
   background: hsl(0, 0%, 100%);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
 }
 
 .button-container {
