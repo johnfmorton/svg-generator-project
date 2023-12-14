@@ -102,9 +102,10 @@ const points = [...Array(numPoints)].map(() => {
 // draw a path through the spline points
 svgObj.path(splinePoints).stroke({
       width: 2,
-      color: '#000'
+      color: '#000',
+
     })
-    .fill('transparent');
+    .fill('none');
 }
 
 function _settingsInit() {
