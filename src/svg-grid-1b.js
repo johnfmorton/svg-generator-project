@@ -1,29 +1,57 @@
 import {
-  createNoiseGrid,
-  createVoronoiTessellation,
-  createQtGrid,
-  random,
-  randomBias,
-  map,
-  spline,
-  pointsInPath
-} from '@georgedoescode/generative-utils';
+    createNoiseGrid,
+    createVoronoiTessellation,
+    createQtGrid,
+    random,
+    randomBias,
+    map,
+    spline,
+    pointsInPath,
+    seedPRNG
+} from '@georgedoescode/generative-utils'
 
 import { mySettings } from './settingsManager.js';
 const settings = _settingsInit();
 
 // export the svgGenerator function
 export function svgGenerator(svgObj) {
+
+
+  console.log('settings.numPoints', settings.numPoints)
+  console.log('settings.seedValue', settings.seedValue)
+  console.log('settings.cornerTension', settings.cornerTension)
+  console.log('settings.resetSeed', settings.resetSeed)
+
+  if (settings.resetSeed || !settings.seedValue) {
+      // create a new random seed number
+      let myseed = Math.floor(Math.random() * 100000)
+      settings.seedValue = myseed
+
+      seedPRNG(myseed)
+  } else if (settings.seedValue) {
+      // set the seed for the PRNG
+      seedPRNG(settings.seedValue)
+  }
+
+
+  // else {
+  //     let myseed = Math.floor(Math.random() * 100000)
+  //     settings.seed = myseed
+
+  //     seedPRNG(myseed)
+  // }
+
+
   const { width, height } = svgObj.viewbox();
   svgObj.clear();
 
   let debug = settings.debug ?? false;
 
-  console.log('settings.debug',settings.debug)
-  console.log('settings.numPoints', settings.numPoints)
-  console.log('settings.cornerTension', settings.cornerTension)
-  console.log('settings.quatTreeLevels', settings.quatTreeLevels)
-  console.log('settings.closeShape', settings.closeShape)
+  // console.log('settings.debug',settings.debug)
+  // console.log('settings.numPoints', settings.numPoints)
+  // console.log('settings.cornerTension', settings.cornerTension)
+  // console.log('settings.quatTreeLevels', settings.quatTreeLevels)
+  // console.log('settings.closeShape', settings.closeShape)
 
 
   let closeShape = settings.closeShape ?? false;
@@ -90,7 +118,7 @@ const points = [...Array(numPoints)].map(() => {
   // draw a circle on each point
   if (debug) {
     gridCenterPoints.forEach((point) => {
-      svgObj.circle(2).cx(point.x).cy(point.y).fill("#fff").stroke("#f00");
+      svgObj.circle(4).cx(point.x).cy(point.y).fill("#fff").stroke("#f00");
     });
 
   }
@@ -168,6 +196,34 @@ function _settingsInit() {
     }
   };
 
+  let divider = {
+    sltype: 'sl-divider'
+  };
+
+  let resetSeedToggle = {
+    sltype: 'sl-switch',
+    name: 'resetSeed',
+    options: {
+      label: 'Reset Seed Each Time?',
+      size: 'medium',
+      helpText: 'Reset the seed on every generation',
+      checked: true
+    }
+  };
+
+  let seed = {
+    sltype: 'sl-input',
+    name: 'seedValue',
+    options: {
+      label: 'Seed Value',
+      type: 'text',
+      value: 1234,
+      step: 1,
+      size: 'medium',
+      helpText: 'The seed for the random number generator.'
+    }
+  };
+
 
   let myDebugOptions = {
     sltype: 'sl-switch',
@@ -181,7 +237,17 @@ function _settingsInit() {
   };
 
   // add settings to the settings manager
-  mySettings.add(numPoints, quatTreeLevels, cornerTension, closeToggle, myDebugOptions);
+  mySettings.add(
+      numPoints,
+      quatTreeLevels,
+      cornerTension,
+      closeToggle,
+      divider,
+      resetSeedToggle,
+      seed,
+      divider,
+      myDebugOptions
+  )
 
   return mySettings;
 }
