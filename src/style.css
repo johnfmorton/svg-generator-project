@@ -32,7 +32,7 @@ body {
   color: black;
   background-color: #fafafa;
   /* linear gradient background */
-      /* background: linear-gradient(140deg, #f5f5f5 0%, rgb(223, 223, 223) 50%); */
+      background: linear-gradient(140deg, #f5f5f5 0%, rgb(223, 223, 223) 50%);
 }
 
 #project-title {
@@ -48,7 +48,7 @@ body {
   height: 75vmin; */
   background: hsl(0, 0%, 100%);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-  width: 100%;
+  /* width: 100%; */
   height: auto;
 }
 
