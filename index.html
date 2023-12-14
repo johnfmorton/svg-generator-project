@@ -6,151 +6,60 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    .layout-container {
-    display: grid;
-    grid-template-rows: 55px 1fr 55px;
-    min-height: 100vh; /* Full height of the viewport */
-    width: 100%; /* Full width */
 
-}
-
-.header, .footer {
-    /* Styling for header and footer */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 10px;
-    background-color: rgba(255, 255, 255, 0.25);
-}
-
-.header {
-    /* Styling for header */
-    /* background: slateblue; */
-    gap: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-.footer {
-    /* Styling for footer */
-    /* background: slateblue; */
-    gap: 20px;
-    border-top: 1px solid #ccc;
-}
-
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Prevents overflow */
-  /* background: linear-gradient(140deg, #f5f5f5 0%, rgb(238, 238, 238) 50%); */
-  padding: 20px 10px;
-}
-
-
-
-.content svg {
-    /* max-width: 800px; Limit to container's width */
-    max-height: calc(100vh - 160px); /* Limit to container's height */
-    width: auto; /* Maintain aspect ratio */
-    height: auto; /* Maintain aspect ratio */
-    min-width: 0; /* Allows SVG to scale down below its intrinsic width */
-    min-height: 0; /* Allows SVG to scale down below its intrinsic height */
-    /* max-height: 500px; */
-
-    /* aspect-ratio: 22/9 ; */
-}
-
+    /* Turn body invisible until DOMContentLoaded */
+    body #content {
+      transition: opacity 0.25s ease-in-out;
+      opacity: 0;
+    }
   </style>
   <title>SVG Workspace</title>
 </head>
 
 <body>
+<div id="content">
+
 
   <sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
     <sl-button slot="footer" variant="primary">Close</sl-button>
   </sl-drawer>
 
 
-<div class="layout-container">
-  <div class="header">
-    <!-- Content for top row -->
-    <div id="project-title">SVG Workspace</div>
-  </div>
-  <div class="content">
-    <!-- <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 yourWidth yourHeight" xmlns="http://www.w3.org/2000/svg"> -->
+  <div class="layout-container">
+    <div class="header">
+      <!-- Content for top row -->
+      <div id="project-title">SVG Workspace</div>
+    </div>
+    <div class="content">
       <!-- SVG content here -->
       <svg id="svg-canvas" viewBox="0 0 1100 850"></svg>
 
-  </div>
-  <div class="footer">
-    <!-- Content for bottom row -->
-    <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
-
-    <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
-
-    <sl-button id="settings-open" variant="neutral">Settings</sl-button></div>
-  </div>
-</div>
-
-  <!-- <div id="content">
-
-    <sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
-      <sl-button slot="footer" variant="primary">Close</sl-button>
-    </sl-drawer>
-
-
-    <div id="project-title">SVG Workspace</div>
-
-    # SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape
-    <svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
-
-    <div class='button-container'>
-
+    </div>
+    <div class="footer">
+      <!-- Content for bottom row -->
       <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
 
       <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
 
       <sl-button id="settings-open" variant="neutral">Settings</sl-button>
-
-
     </div>
-
-  </div> -->
-<!--
-<div class="container">
-  <div class="title"><div id="project-title">SVG Workspace</div></div>
-  <div class="artwork"><svg id="svg-canvas" viewBox="0 0 1056 816"></svg></div>
-  <div class="actions"><sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
-
-  <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
-
-  <sl-button id="settings-open" variant="neutral">Settings</sl-button></div>
-</div> -->
-
+  </div>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
-
-
   <script>
     // const drawer = document.querySelector('.drawer-overview');
     const drawer = document.getElementById('settings');
     const openButton = document.getElementById('settings-open');
     const closeButton = drawer.querySelector('sl-button[variant="primary"]');
-
     openButton.addEventListener('click', () => drawer.show());
     closeButton.addEventListener('click', () => drawer.hide());
-
-    // if there are ANY query params, close the drawer
-    // wait for document and javascript to load before showing the
-
-
-
     window
       .addEventListener('DOMContentLoaded', () => {
         if (!window.location.search) {
           drawer.show();
         }
-        document.getElementById('content').style.display = 'block';
+        document.getElementById('content').style.opacity = '1';
       });
 
   </script>
