@@ -6,45 +6,100 @@
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      
+.parent {
+  min-height: 100vh;
+  min-width: 100vw;
+display: grid;
+grid-template-columns: 70px 1fr 70px;
+grid-template-rows: 70px 6fr 70px;
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+}
 
-    }
+.div1 {
+  grid-area: 1 / 2 / 2 / 3;
+  color: red;
+  background-color: lightblue;
+}
+.div2 { grid-area: 2 / 2 / 3 / 3;
+  background-color: lightgreen;
+  height: 100%;
+  max-height: calc(100vh - 140px);
+  /* display: flex;
+  justify-content: center; */
+}
+.div3 { grid-area: 3 / 2 / 4 / 3;
+
+  background-color: lightpink;
+}
 
 
-    /* Hide the content until the page has loaded */
-    body #content {
-      display: none;
-    }
+.svg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 100%; */
+
+    border: 1px solid #ccc; /* Optional, just for visualization */
+  max-height: calc(100vh - 140px);
+    aspect-ratio: 11/8.5;
+    margin: auto;
+}
+
+
   </style>
   <title>SVG Workspace</title>
 </head>
 
 <body>
-  <div id="content">
 
-<sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
-  <sl-button slot="footer" variant="primary">Close</sl-button>
-</sl-drawer>
+  <sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+  </sl-drawer>
 
 
-<div id="project-title">SVG Workspace</div>
+<div class="parent">
+  <div class="div1"><div id="project-title">SVG Workspace</div></div>
+  <div class="div2 "><div class="svg-container"> <svg id="svg-canvas" viewBox="0 0 1056 816"></svg></div> </div>
+  <div class="div3"> buttons </div>
+</div>
 
-<!-- SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape -->
-<svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
+  <!-- <div id="content">
 
-<div class='button-container'>
+    <sl-drawer label="Settings" placement="end" class="drawer-overview" id="settings">
+      <sl-button slot="footer" variant="primary">Close</sl-button>
+    </sl-drawer>
 
-  <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
+
+    <div id="project-title">SVG Workspace</div>
+
+    # SVG is sized to be a full 8 1/2 x 11 inch document when opened in InkScape
+    <svg id="svg-canvas" viewBox="0 0 1056 816"></svg>
+
+    <div class='button-container'>
+
+      <sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
+
+      <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
+
+      <sl-button id="settings-open" variant="neutral">Settings</sl-button>
+
+
+    </div>
+
+  </div> -->
+<!--
+<div class="container">
+  <div class="title"><div id="project-title">SVG Workspace</div></div>
+  <div class="artwork"><svg id="svg-canvas" viewBox="0 0 1056 816"></svg></div>
+  <div class="actions"><sl-button id="regenerateBtn" variant="primary">Regenerate</sl-button>
 
   <sl-button id="downloadBtn" variant="success">Download SVG</sl-button>
 
-  <sl-button id="settings-open" variant="neutral">Settings</sl-button>
+  <sl-button id="settings-open" variant="neutral">Settings</sl-button></div>
+</div> -->
 
 
-</div>
-
-  </div>
   <script type="module" src="/src/main.js"></script>
 
 
