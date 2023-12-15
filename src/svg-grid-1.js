@@ -7,6 +7,7 @@ import {
     map,
     spline,
     pointsInPath,
+    seedPRNG,
 } from '@georgedoescode/generative-utils'
 
 import { mySettings } from './settingsManager.js'
@@ -14,16 +15,23 @@ const settings = _settingsInit()
 
 // export the svgGenerator function
 export function svgGenerator(svgObj) {
+    // If the resetSeed toggle is checked (true), or if there is no seed value assigned
+    if (settings.resetSeed || !settings.seedValue) {
+        // create a new random seed number
+        let myseed = Math.floor(Math.random() * 100000)
+        // assign the seed value to the settings object`
+        settings.seedValue = myseed
+        // set the seed for the PRNG
+        seedPRNG(myseed)
+    } else if (settings.seedValue) {
+        // set the seed for the PRNG
+        seedPRNG(settings.seedValue)
+    }
+
     const { width, height } = svgObj.viewbox()
     svgObj.clear()
 
     let debug = settings.debug ?? false
-
-    console.log('settings.debug', settings.debug)
-    console.log('settings.numPoints', settings.numPoints)
-    console.log('settings.cornerTension', settings.cornerTension)
-    console.log('settings.quatTreeLevels', settings.quatTreeLevels)
-    console.log('settings.closeShape', settings.closeShape)
 
     let closeShape = settings.closeShape ?? false
     // check if the #closeShape input exists
@@ -73,14 +81,14 @@ export function svgGenerator(svgObj) {
                 .x(area.x)
                 .y(area.y)
                 .fill('none')
-                .stroke('#111')
+                .stroke('#a1a1a1')
         }
     })
 
     // draw a circle on each point
     if (debug) {
         gridCenterPoints.forEach((point) => {
-            svgObj.circle(2).cx(point.x).cy(point.y).fill('#fff').stroke('#f00')
+            svgObj.circle(8).cx(point.x).cy(point.y).fill('#f00').stroke('#f00')
         })
     }
 
@@ -97,6 +105,9 @@ export function svgGenerator(svgObj) {
         .fill('none')
 }
 
+// helper function to initialize the settings manager
+// use Shoelace Web Components to create the settings UI
+// https://shoelace.style/
 function _settingsInit() {
     // initialize the settings manager
     mySettings.init({ settingsElement: '#settings' })
@@ -157,6 +168,34 @@ function _settingsInit() {
         },
     }
 
+    let divider = {
+        sltype: 'sl-divider',
+    }
+
+    let resetSeedToggle = {
+        sltype: 'sl-switch',
+        name: 'resetSeed',
+        options: {
+            label: 'Reset Seed Each Time?',
+            size: 'medium',
+            helpText: 'Reset the seed on every generation',
+            checked: true,
+        },
+    }
+
+    let seed = {
+        sltype: 'sl-input',
+        name: 'seedValue',
+        options: {
+            label: 'Seed Value',
+            type: 'text',
+            value: 1234,
+            step: 1,
+            size: 'medium',
+            helpText: 'The seed for the random number generator.',
+        },
+    }
+
     let myDebugOptions = {
         sltype: 'sl-switch',
         name: 'debug',
@@ -174,6 +213,10 @@ function _settingsInit() {
         quatTreeLevels,
         cornerTension,
         closeToggle,
+        divider,
+        resetSeedToggle,
+        seed,
+        divider,
         myDebugOptions
     )
 
