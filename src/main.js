@@ -7,20 +7,33 @@
 
 import './style.css'
 import { SVG } from '@svgdotjs/svg.js';
-import { svgGenerator } from './svg-grid-1b';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 
-// The SVG element already present in the HTML
-const svgGenerated = SVG("#svg-canvas");
+/*
+* Instructions:
+* - Start your SVG project by editing the svgGenerator function in src/starter-svg.js
+* - In this file, main.js, update the name of your new SVG project in the projectTitle variable below
+*
+**/
+
+import { svgGenerator } from './svg-grid-1';
 
 // Used for the filename of the SVG generated that will be timestamped
 // Don't include .svg extension in the name. Also, the filename will
 // include a timestamp that starts with an underscore.
 const projectTitle = "Grid Spline Shape Maker";
 
+/*
+* The code below this point should not need to be changed in most cases.
+* Your work should be in your svgGenerator function in src/starter-svg.js
+*/
+
 // set the #project-title in the HTML to the projectTitle variable
 const projectNameEl = document.getElementById("project-title");
 projectNameEl.innerHTML = projectTitle;
+
+// The SVG element already present in the HTML
+const svgGenerated = SVG("#svg-canvas");
 
 // regenerate button
 const regenerateBtn = document.getElementById("regenerateBtn");
