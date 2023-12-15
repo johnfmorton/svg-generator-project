@@ -72,14 +72,31 @@ body#content {
     overflow: hidden; /* Prevents overflow */
     padding: 20px 10px;
 }
+/*
+.content svg {
+    max-height: calc(100vh - 160px);
+    width: auto;
+    height: auto;
+    min-width: calc(100vh - 160px * (8.5/11));
+    min-height: calc(100vh - 160px);
+}
 
 .content svg {
-    max-height: calc(100vh - 160px); /* Limit to container's height */
-    width: auto; /* Maintain aspect ratio */
-    height: auto; /* Maintain aspect ratio */
-    min-width: 0; /* Allows SVG to scale down below its intrinsic width */
-    min-height: 0; /* Allows SVG to scale down below its intrinsic height */
+    max-height: calc(100vh - 160px);
+    width: auto;
+    height: auto;
+    min-width: calc(100vh - 160px * (8.5/11));
+    min-height: calc(100vh - 160px);
 }
+ */
+
+.content svg {
+    /* max-height: calc(100vh - 160px); */
+    /* Update the calculation based on the SVG size */
+    width: calc(100vh - 160px * (8.5/11));
+    height: calc(100vh - 160px);
+}
+
 
 #project-title {
     font-size: 1.5rem;
