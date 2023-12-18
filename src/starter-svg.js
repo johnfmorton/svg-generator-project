@@ -135,7 +135,7 @@ function _settingsInit() {
             value: 50,
             step: 1,
             size: 'medium',
-            helpText: 'The number of points to draw',
+            helpText: 'The number of points used to draw the tessellation.',
         },
     }
 
