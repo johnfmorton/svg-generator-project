@@ -43,7 +43,7 @@ export function svgGenerator(svgObj) {
   const radius = height / 2
 
   // Get the number of points to draw from the settings object or use the default value of 500
-  let numPoints = settings.numPoints ?? 500
+  let numPoints = settings.numPoints ?? 4
 
   // An array to hold the points
   let points = []
@@ -63,7 +63,7 @@ export function svgGenerator(svgObj) {
 
   // draw the points
   points.forEach((point) => {
-    svgObj.circle(6).center(point.x, point.y).fill('#0d0')
+    svgObj.circle(20).center(point.x, point.y).fill('#f00')
   })
 
   // draw the a line from the center of the canvas to each point
@@ -106,14 +106,14 @@ export function svgGenerator(svgObj) {
   })
 
   // draw a line from each outer point to every other outer point
-  // outerPoints.forEach((point) => {
-  //   outerPoints.forEach((point2) => {
-  //     svgObj.line(point.x, point.y, point2.x, point2.y).stroke({ width: 1 }).stroke({ color: "#0e0" });
-  //   });
-  // });
+  outerPoints.forEach((point) => {
+    outerPoints.forEach((point2) => {
+      svgObj.line(point.x, point.y, point2.x, point2.y).stroke({ width: 1 }).stroke({ color: "#0e0" });
+    });
+  });
 
   // using spline, create a path from the outer points
-  let pathString = spline(outerPoints, true)
+  let pathString = spline(outerPoints, 0.5, true)
 
   const pathElement = document.createElementNS(
     'http://www.w3.org/2000/svg',
@@ -122,7 +122,7 @@ export function svgGenerator(svgObj) {
   pathElement.setAttribute('d', pathString)
 
   // draw the path
-  // let svgPath = svgObj.path(path).fill("none").stroke({ width: 1 }).stroke({ color: "#0e0" });
+  let svgPath = svgObj.path(path).fill("none").stroke({ width: 1 }).stroke({ color: "#0e0" });
 
   // get the points in the path; returns array of objects with x and y properties
   let pointsInPaths = pointsInPath(pathElement, 50)
@@ -133,66 +133,66 @@ export function svgGenerator(svgObj) {
   })
 
   // draw a line from the first point to the next point to the next point and so on
-  pointsInPaths.forEach((point, index) => {
-    if (index < pointsInPaths.length - 1) {
-      svgObj
-        .line(
-          point.x,
-          point.y,
-          pointsInPaths[index + 1].x,
-          pointsInPaths[index + 1].y
-        )
-        .stroke({ width: 1 })
-        .stroke({ color: '#0e0' })
-    }
-  })
+  // pointsInPaths.forEach((point, index) => {
+  //   if (index < pointsInPaths.length - 1) {
+  //     svgObj
+  //       .line(
+  //         point.x,
+  //         point.y,
+  //         pointsInPaths[index + 1].x,
+  //         pointsInPaths[index + 1].y
+  //       )
+  //       .stroke({ width: 1 })
+  //       .stroke({ color: '#0e0' })
+  //   }
+  // })
 
   // draw a line from the first point to the next point to the next point and so on with a BEZIER curve
 
-  pointsInPaths.forEach((point, index) => {
-    if (index < pointsInPaths.length - 1) {
-      svgObj
-        .line(
-          point.x,
-          point.y,
-          pointsInPaths[index + 1].x,
-          pointsInPaths[index + 1].y
-        )
-        .stroke({ width: 1 })
-        .stroke({ color: "#F0E" });
-    }
-  }
-  );
+  // pointsInPaths.forEach((point, index) => {
+  //   if (index < pointsInPaths.length - 1) {
+  //     svgObj
+  //       .line(
+  //         point.x,
+  //         point.y,
+  //         pointsInPaths[index + 1].x,
+  //         pointsInPaths[index + 1].y
+  //       )
+  //       .stroke({ width: 1 })
+  //       .stroke({ color: "#F0E" });
+  //   }
+  // }
+  // );
 
 
 let d = `M ${pointsInPaths[0].x},${pointsInPaths[0].y}` // Move to the first point
 
-pointsInPaths.forEach((point, index) => {
-    if (index < pointsInPaths.length - 1) {
-      // Calculate control points (cp1x, cp1y, cp2x, cp2y) here
-      let cp1x = point.x
-      let cp1y = point.y
-      let cp2x = pointsInPaths[index + 1].x
-      let cp2y = pointsInPaths[index + 1].y
+// pointsInPaths.forEach((point, index) => {
+//     if (index < pointsInPaths.length - 1) {
+//       // Calculate control points (cp1x, cp1y, cp2x, cp2y) here
+//       let cp1x = point.x
+//       let cp1y = point.y
+//       let cp2x = pointsInPaths[index + 1].x
+//       let cp2y = pointsInPaths[index + 1].y
 
-      // Add the curve to the path
-      d += ` C ${cp1x},${cp1y},${cp2x},${cp2y},${
-        pointsInPaths[index + 1].x
-        },${pointsInPaths[index + 1].y}`
+//       // Add the curve to the path
+//       d += ` C ${cp1x},${cp1y},${cp2x},${cp2y},${
+//         pointsInPaths[index + 1].x
+//         },${pointsInPaths[index + 1].y}`
 
 
 
-        // // For simplicity, let's assume they are the midpoints between the current and next point
-        // let midX = (point.x + pointsInPaths[index + 1].x) / 2
-        // let midY = (point.y + pointsInPaths[index + 1].y) / 2
+//         // // For simplicity, let's assume they are the midpoints between the current and next point
+//         // let midX = (point.x + pointsInPaths[index + 1].x) / 2
+//         // let midY = (point.y + pointsInPaths[index + 1].y) / 2
 
-        // d += ` C ${midX},${midY},${midX},${midY},${
-        //     pointsInPaths[index + 1].x
-        // },${pointsInPaths[index + 1].y}`
-    }
-})
+//         // d += ` C ${midX},${midY},${midX},${midY},${
+//         //     pointsInPaths[index + 1].x
+//         // },${pointsInPaths[index + 1].y}`
+//     }
+// })
 
-svgObj.path(d).fill('none').stroke({ width: 1, color: '#0FE' })
+// svgObj.path(d).fill('none').stroke({ width: 1, color: '#0FE' })
 
 
 
