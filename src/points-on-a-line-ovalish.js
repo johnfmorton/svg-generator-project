@@ -316,7 +316,7 @@ function _settingsInit() {
             type: 'number',
             min: 1,
             max: 1000,
-            value: 50,
+            value: 7,
             step: 1,
             size: 'medium',
             helpText: 'The number of points used to draw the tessellation.',
