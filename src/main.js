@@ -16,12 +16,12 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 *
 **/
 
-import { svgGenerator } from './starter-svg.js';
+import { svgGenerator } from './points-on-a-line.js';
 
 // Used for the filename of the SVG generated that will be timestamped
 // Don't include .svg extension in the name. Also, the filename will
 // include a timestamp that starts with an underscore.
-const projectTitle = "Starter SVG";
+const projectTitle = "Points on a Line SVG";
 
 /*
 * The code below this point should not need to be changed in most cases.
