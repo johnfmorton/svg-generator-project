@@ -94,7 +94,7 @@ export function svgGenerator(svgObj) {
 
 
     // using spline, create a path from the outer points
-    let pathString = _spline8(points, 1, true)
+    let pathString = _spline8(points, 1.5, settings.closeLoop)
 
     // draw the path
     let splinePath = svgObj
@@ -113,7 +113,7 @@ export function svgGenerator(svgObj) {
     console.log(pathElement)
 
     // get the points in the path; returns array of objects with x and y properties
-    let pointsInPaths = _pointsInPath(pathElement, `5`)
+    let pointsInPaths = _pointsInPath(pathElement, settings.numberOfDivisions ?? 5)
 
     // // draw the points in the path
     pointsInPaths.forEach((point, index) => {
@@ -323,6 +323,32 @@ function _settingsInit() {
         },
     }
 
+  const numberOfDivisions = {
+    sltype: 'sl-input',
+    name: 'numberOfDivisions',
+    options: {
+      label: 'Number of divisions',
+      type: 'number',
+      min: 5,
+      max: 1000,
+      value: 10,
+      step: 1,
+      size: 'medium',
+      helpText: 'The number of points used to draw the tessellation.',
+    },
+  }
+
+  const closeLoop = {
+    sltype: 'sl-switch',
+    name: 'closeLoop',
+    options: {
+      label: 'Close Loop',
+      size: 'medium',
+      helpText: 'Close the loop?',
+      checked: false,
+    },
+  }
+
 
     let divider = {
         sltype: 'sl-divider',
@@ -366,7 +392,8 @@ function _settingsInit() {
     // add settings to the settings manager
     mySettings.add(
         numPoints,
-
+      numberOfDivisions,
+closeLoop,
         divider,
         resetSeedToggle,
         seed,
