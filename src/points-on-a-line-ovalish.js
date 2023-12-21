@@ -94,7 +94,7 @@ export function svgGenerator(svgObj) {
 
 
     // using spline, create a path from the outer points
-    let pathString = _spline7(points, 1, true)
+    let pathString = _spline8(points, 1, true)
 
     // draw the path
     let splinePath = svgObj
@@ -243,7 +243,7 @@ function _spline1(points = [], tension = 1, close = false, cb) {
 }
 
 
-function _spline7(points = [], tension = 0.5, close = false, cb) {
+function _spline8(points = [], tension = 0.5, close = false, cb) {
     if (points.length < 2) return ''
 
     // Helper function to calculate a Catmull-Rom spline point
@@ -272,12 +272,16 @@ function _spline7(points = [], tension = 0.5, close = false, cb) {
 
     const numPoints = points.length
     const segmentCount = 20 // Number of segments between control points
+    const loopLimit = close ? numPoints : numPoints - 1
 
-    for (let i = 0; i < numPoints; i++) {
+    for (let i = 0; i < loopLimit; i++) {
         const p0 = points[i === 0 ? (close ? numPoints - 1 : i) : i - 1]
         const p1 = points[i]
         const p2 = points[(i + 1) % numPoints]
-        const p3 = points[(i + 2) % numPoints]
+        const p3 =
+            points[
+                i + 2 < numPoints ? i + 2 : close ? (i + 2) % numPoints : i + 1
+            ]
 
         for (let j = 1; j <= segmentCount; j++) {
             const t = j / segmentCount
