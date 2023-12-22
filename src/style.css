@@ -41,6 +41,8 @@ body#content {
     display: grid;
     grid-template-rows: 55px 1fr 55px;
     min-height: 100vh; /* Full height of the viewport */
+    min-height: 100svh; /* Full small viewport height */
+    min-height: 100dvh; /* Full dynamic height of the viewport */
     width: 100%; /* Full width */
 }
 
