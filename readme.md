@@ -43,6 +43,6 @@ To:
 
 This project uses [SVG.js](https://svgjs.dev/docs/3.0/) to make the SVG creation easier. 
 
-I hope you find it useful.
-
 The settings panel uses [Shoelace web components](https://shoelace.style/).
+
+I hope you find it useful. If you have questions, send me a public message on Threads. Thanks! -John
